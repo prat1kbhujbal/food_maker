@@ -1,0 +1,60 @@
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+# Left Arm Controllers
+l_shoulder_pan_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: l_shoulder_pan_joint
+  pid: {p: 1000, i: 150, d: 150, i_clamp: 150}
+l_shoulder_lift_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: l_shoulder_lift_joint
+  pid: {p: 1000, i: 15, d: 500, i_clamp: 150}
+l_elbow_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: l_elbow_joint
+  pid: {p: 200, i: 20, d: 100, i_clamp: 150}
+l_wrist_1_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: l_wrist_1_joint
+  pid: {p: 50, i: 0.0, d: 10, i_clamp: 0.0}
+l_wrist_2_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: l_wrist_2_joint
+  pid: {p: 200, i: 0.0, d: 1, i_clamp: 0.0}
+l_wrist_3_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: l_wrist_3_joint
+  pid: {p: 10, i: 0.0, d: 1, i_clamp: 0.0}
+
+# Right Arm Controllers
+r_shoulder_pan_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: r_shoulder_pan_joint
+  pid: {p: 1000, i: 150, d: 150, i_clamp: 150.0}
+r_shoulder_lift_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: r_shoulder_lift_joint
+  pid: {p: 1000, i: 15, d: 500, i_clamp: 150}
+r_elbow_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: r_elbow_joint
+  pid: {p: 200, i: 20, d: 100, i_clamp: 150}
+r_wrist_1_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: r_wrist_1_joint
+  pid: {p: 50, i: 0.0, d: 10, i_clamp: 0.0}
+r_wrist_2_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: r_wrist_2_joint
+  pid: {p: 200, i: 0.0, d: 1, i_clamp: 0.0}
+r_wrist_3_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: r_wrist_3_joint
+  pid: {p: 10, i: 0.0, d: 1, i_clamp: 0.0}
+
+hip_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: hip_joint
+  pid: {p: 10, i: 0.0, d: 1, i_clamp: 0.0}  

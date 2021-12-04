@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<robot name="food_robot" xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:include filename="$(find food_maker)/urdf/right_arm/right_arm.urdf.xacro"/>
+    <xacro:include filename="$(find food_maker)/urdf/left_arm/left_arm.urdf.xacro"/>
+
+     <xacro:include filename="$(find food_maker)/urdf/robot.gazebo"/>
+
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-7.1494E-18 -2.7744E-07 0.29426"
+        rpy="0 0 0" />
+      <mass
+        value="159.78" />
+      <inertia
+        ixx="7.4342"
+        ixy="-4.7031E-22"
+        ixz="-2.9075E-16"
+        iyy="7.4342"
+        iyz="7.4785E-06"
+        izz="6.4972" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://food_maker/meshes/base/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://food_maker/meshes/base/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="hip_link">
+    <inertial>
+      <origin
+        xyz="8.687E-08 5.305E-06 0.26328"
+        rpy="0 0 0" />
+      <mass
+        value="73.153" />
+      <inertia
+        ixx="2.4336"
+        ixy="-7.1738E-06"
+        ixz="8.3078E-07"
+        iyy="2.3897"
+        iyz="5.695E-05"
+        izz="1.7295" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://food_maker/meshes/base/hip_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://food_maker/meshes/base/hip_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="hip_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0.74594"
+      rpy="0 0 3.14159" />
+    <parent
+      link="base_link" />
+    <child
+      link="hip_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="500"
+      velocity="10" />
+  </joint>
+  <joint
+    name="right_shoulder_joint"
+    type="revolute">
+    <origin
+      xyz="0 0.246 0.38513"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="hip_link" />
+    <child
+      link="r_shoulder_hinge" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <joint
+    name="left_shoulder_joint"
+    type="revolute">
+    <origin
+      xyz="0 -0.246 0.38513"
+      rpy="1.5708 0 0" />
+    <parent
+      link="hip_link" />
+    <child
+      link="l_shoulder_hinge" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+
+    <transmission name="hip_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="hip_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="hip_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission> 
+
+</robot>
