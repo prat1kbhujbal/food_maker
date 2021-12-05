@@ -60,4 +60,24 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
+
+          <transmission name="l_rfinger_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="l_right_fingers_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="l_rfinger_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission> 
+
+    <transmission name="l_lfinger_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="l_left_fingers_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="l_lfinger_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission> 
 </robot>

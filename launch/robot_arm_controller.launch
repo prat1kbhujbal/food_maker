@@ -1,13 +1,12 @@
-<?xml version="1.0"?>
 <launch>
 
     <rosparam file="$(find food_maker)/config/robot_arm_controller.yaml" 
     command="load"/>
   
-    <node name="controller_spawner" ns="/" output="screen" pkg="controller_manager" respawn="false" type="spawner" args="l_shoulder_pan_joint_controller l_shoulder_lift_joint_controller l_elbow_joint_controller l_wrist_1_joint_controller l_wrist_2_joint_controller l_wrist_3_joint_controller r_shoulder_pan_joint_controller r_shoulder_lift_joint_controller r_elbow_joint_controller r_wrist_1_joint_controller r_wrist_2_joint_controller r_wrist_3_joint_controller hip_joint_controller"/>
+    <node name="controller_spawner" ns="/" output="screen" pkg="controller_manager" respawn="false" type="spawner" args="l_shoulder_pan_joint_controller l_shoulder_lift_joint_controller l_elbow_joint_controller l_wrist_1_joint_controller l_wrist_2_joint_controller l_wrist_3_joint_controller r_shoulder_pan_joint_controller r_shoulder_lift_joint_controller r_elbow_joint_controller r_wrist_1_joint_controller r_wrist_2_joint_controller r_wrist_3_joint_controller hip_joint_controller r_rfinger_joint_controller r_lfinger_joint_controller l_rfinger_joint_controller l_lfinger_joint_controller"/>
 
     <node name="joint_state_publisher" pkg="joint_state_publisher"      type="joint_state_publisher">
     <param name="use_gui" value="false"/>
   </node>
-
+    
 </launch>

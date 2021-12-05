@@ -5,7 +5,14 @@
     <xacro:include filename="$(find food_maker)/urdf/left_arm/left_arm.urdf.xacro"/>
 
      <xacro:include filename="$(find food_maker)/urdf/robot.gazebo"/>
-
+ <link name="robot_footprint"></link>
+    <joint name="robot_footprint_joint" type="fixed">
+        <parent link="robot_footprint" />
+        <child link="base_link" />
+        <origin
+      xyz="0 0 0.0"
+      rpy="0 0 3.14159" />
+    </joint>
   <link
     name="base_link">
     <inertial>
@@ -50,7 +57,7 @@
     name="hip_link">
     <inertial>
       <origin
-        xyz="8.687E-08 5.305E-06 0.26328"
+        xyz="0 0 0.26328"
         rpy="0 0 0" />
       <mass
         value="73.153" />
@@ -99,14 +106,14 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="0"
-      upper="0"
+      lower="${-pi}"
+      upper="${pi}"
       effort="500"
-      velocity="10" />
+      velocity="100" />
   </joint>
   <joint
     name="right_shoulder_joint"
-    type="revolute">
+    type="fixed">
     <origin
       xyz="0 0.246 0.38513"
       rpy="-1.5708 0 0" />
@@ -116,29 +123,19 @@
       link="r_shoulder_hinge" />
     <axis
       xyz="0 0 1" />
-    <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
   </joint>
   <joint
     name="left_shoulder_joint"
-    type="revolute">
+    type="fixed">
     <origin
       xyz="0 -0.246 0.38513"
-      rpy="1.5708 0 0" />
+      rpy="1.5708 3.14159 0" />
     <parent
       link="hip_link" />
     <child
       link="l_shoulder_hinge" />
     <axis
       xyz="0 0 -1" />
-    <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
   </joint>
 
     <transmission name="hip_trans">

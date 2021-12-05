@@ -231,33 +231,166 @@
 
     <joint name="r_ee_fixed_joint" type="fixed">
       <parent link="r_wrist_3_link" />
-      <child link = "r_ee_link" />
-      <origin xyz="0.0 ${wrist_3_length} 0.0" rpy="0.0 0.0 ${pi/2.0}" />
+      <child link = "r_base_gripper" />
+      <origin xyz="0.0 ${wrist_3_length} 0.0" rpy="0.0 ${pi/2.0} ${pi/2.0}" />
     </joint>
 
-    <link name="r_ee_link">
-      <collision>
-        <geometry>
-          <box size="0.01 0.01 0.01"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="-0.01 0 0"/>
-      </collision>
-    </link>
-
-    <link name="r_base"/>
-    <joint name="r_shoulder_hinge-r_base_fixed_joint" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 ${-pi}"/>
-      <parent link="r_shoulder_hinge"/>
-      <child link="r_base"/>
-    </joint>
-
-    <link name="r_tool0"/>
-    <joint name="r_wrist_3_link-r_tool0_fixed_joint" type="fixed">
-      <origin xyz="0 ${wrist_3_length} 0" rpy="${pi/-2.0} 0 0"/>
-      <parent link="r_wrist_3_link"/>
-      <child link="r_tool0"/>
-    </joint>
-
+  <link
+    name="r_base_gripper">
+    <inertial>
+      <origin
+        xyz="-2.7339E-07 -7.4538E-07 0.022293"
+        rpy="0 0 0" />
+      <mass
+        value="0.19186" />
+      <inertia
+        ixx="9.521E-05"
+        ixy="-7.2876E-10"
+        ixz="-1.8228E-11"
+        iyy="0.0001169"
+        iyz="1.8664E-10"
+        izz="0.00015761" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://food_maker/meshes/base_gripper.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.2 0.2 0.2 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://food_maker/meshes/base_gripper.STL" />
+      </geometry>
+    </collision>
+  </link>
+ <link
+    name="r_right_fingers">
+    <inertial>
+      <origin
+        xyz="-0.0064675 0.046006 0.0096433"
+        rpy="0 0 0" />
+      <mass
+        value="0.065089" />
+      <inertia
+        ixx="5.9682E-05"
+        ixy="1.3253E-21"
+        ixz="5.951E-22"
+        iyy="1.3886E-05"
+        iyz="-1.8761E-05"
+        izz="5.1408E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="-0.0064675 -0.032 0.03"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://food_maker/meshes/right_fingers.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.0064675 -0.032 0.03"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://food_maker/meshes/right_fingers.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_right_fingers_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0064675 -0.028 0.035209"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="r_base_gripper" />
+    <child
+      link="r_right_fingers" />
+    <axis
+      xyz="-1 0 0" />
+     <limit
+      lower="0"
+      upper="${pi/8}"
+      effort="1"
+      velocity="0.2" />
+  </joint>
+  <link
+    name="r_left_fingers">
+    <inertial>
+      <origin
+        xyz="-0.0064675 0.046006 0.0096433"
+        rpy="0 0 0" />
+      <mass
+        value="0.065089" />
+      <inertia
+        ixx="5.9682E-05"
+        ixy="4.3611E-21"
+        ixz="4.146E-22"
+        iyy="1.3886E-05"
+        iyz="-1.8761E-05"
+        izz="5.1408E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0.0064675 -0.032 -0.03"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://food_maker/meshes/left_fingers.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.0064675 -0.032 -0.03"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://food_maker/meshes/left_fingers.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_left_fingers_joint"
+    type="revolute">
+    <origin
+      xyz="0.0064675 0.028 0.035209"
+      rpy="1.5708 0 3.14159" />
+    <parent
+      link="r_base_gripper" />
+    <child
+      link="r_left_fingers" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="${pi/8}"
+      effort="1"
+      velocity="0.2" />
+  </joint>
     <gazebo reference="r_shoulder_link">
       <selfCollide>true</selfCollide>
     </gazebo>

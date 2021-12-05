@@ -54,7 +54,32 @@ r_wrist_3_joint_controller:
   joint: r_wrist_3_joint
   pid: {p: 10, i: 0.0, d: 1, i_clamp: 0.0}
 
+# gripper Controllers
+# l_finger_joint_controller:
+#   type: effort_controllers/JointPositionController
+#   joint: left_fingers_joint
+#   pid: {p: 10, i: 0, d: 0, i_clamp: 150}
+r_rfinger_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: r_right_fingers_joint
+  pid: {p: 10, i: 0, d: 0, i_clamp: 150}
+
+r_lfinger_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: r_left_fingers_joint
+  pid: {p: 10, i: 0, d: 0, i_clamp: 150} 
+
+l_rfinger_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: l_right_fingers_joint
+  pid: {p: 10, i: 0, d: 0, i_clamp: 150}
+
+l_lfinger_joint_controller:
+  type: effort_controllers/JointPositionController
+  joint: l_left_fingers_joint
+  pid: {p: 10, i: 0, d: 0, i_clamp: 150}   
+
 hip_joint_controller:
   type: effort_controllers/JointPositionController
   joint: hip_joint
-  pid: {p: 10, i: 0.0, d: 1, i_clamp: 0.0}  
+  pid: {p: 800, i: 0.5, d: 250, i_clamp: 150}  
