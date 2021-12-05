@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
 
 <param name="robot_description"
@@ -15,7 +16,5 @@
     <!-- State Publisher -->
       <node name="robot_state_publisher" output="screen" pkg="robot_state_publisher" respawn="false" type="robot_state_publisher">
     </node>
-
      <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find UR10_movable)/cfg/view_robot.rviz" required="true" /> -->
-  
 </launch>

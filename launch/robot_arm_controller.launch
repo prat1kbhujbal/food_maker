@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
 
     <rosparam file="$(find food_maker)/config/robot_arm_controller.yaml" 
@@ -8,5 +9,5 @@
     <node name="joint_state_publisher" pkg="joint_state_publisher"      type="joint_state_publisher">
     <param name="use_gui" value="false"/>
   </node>
-    
+
 </launch>
