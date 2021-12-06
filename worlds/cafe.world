@@ -50,7 +50,7 @@
     <include>
     <name>bowl1</name>
       <pose>-1.3 3.5 0 0 0 0</pose>
-      <uri>model://bowl</uri>
+      <uri>model://topping_bowl</uri>
     </include>
 
 
@@ -63,7 +63,7 @@
     <include>
     <name>bowl2</name>
     <pose>-1.3 5 0 0 0 0</pose>
-      <uri>model://bowl</uri>
+      <uri>model://topping_bowl</uri>
     </include>
 
     <include>

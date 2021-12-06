@@ -1,22 +1,20 @@
+<?xml version="1.0"?>
 <launch>
+  <param name="robot_description"
+    command="xacro --inorder '$(find food_maker)/urdf/robot.urdf.xacro'" />
+      <node args="-param robot_description -urdf -x -2.5 -y 4.25 -z 0.6 -model food_maker" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" />
+      <include file="$(find gazebo_ros)/launch/empty_world.launch">
+          <arg name="world_name" value="$(find food_maker)/worlds/cafe.world"/>
+          <arg name="paused" value="true" />
+          <arg name="use_sim_time" value="true" />
+          <arg name="gui" value="true" />
+          <arg name="headless" value="false" />
+          <arg name="debug" value="false" />
+      </include>
+      
+  <!-- State Publisher -->
+  <node name="robot_state_publisher" output="screen" pkg="robot_state_publisher" respawn="false" type="robot_state_publisher"></node>
 
-<param name="robot_description"
-  command="xacro --inorder '$(find food_maker)/urdf/robot.urdf.xacro'" />
-    <node args="-param robot_description -urdf -x -2.5 -y 4.25 -z 0.6 -model food_maker" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" />
-    <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find food_maker)/worlds/cafe.world" />
-        <arg name="paused" value="true" />
-        <arg name="use_sim_time" value="true" />
-        <arg name="gui" value="true" />
-        <arg name="headless" value="false" />
-        <arg name="debug" value="false" />
-    </include>
-    
-    <!-- State Publisher -->
-      <node name="robot_state_publisher" output="screen" pkg="robot_state_publisher" respawn="false" type="robot_state_publisher">
-    </node>
-
-   <include file="$(find food_maker)/launch/robot_arm_controller.launch"/>
-     <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find UR10_movable)/cfg/view_robot.rviz" required="true" /> -->
+  <include file="$(find food_maker)/launch/robot_arm_controller.launch"/>
   
 </launch>
