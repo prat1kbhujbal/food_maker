@@ -20,7 +20,7 @@
         xyz="-7.1494E-18 -2.7744E-07 0.29426"
         rpy="0 0 0" />
       <mass
-        value="159.78" />
+        value="50000" />
       <inertia
         ixx="7.4342"
         ixy="-4.7031E-22"
@@ -116,7 +116,7 @@
     type="fixed">
     <origin
       xyz="0 0.246 0.38513"
-      rpy="-1.5708 0 0" />
+      rpy="-1.5708 -1.5708 0" />
     <parent
       link="hip_link" />
     <child
@@ -129,7 +129,7 @@
     type="fixed">
     <origin
       xyz="0 -0.246 0.38513"
-      rpy="1.5708 3.14159 0" />
+      rpy="1.5708 1.5708 0" />
     <parent
       link="hip_link" />
     <child
