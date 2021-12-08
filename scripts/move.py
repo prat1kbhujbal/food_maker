@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import time
 import rospy
 import numpy as np
@@ -11,54 +12,70 @@ l_intial_pos_ = [-pi, 0, -pi, 0, 0, 0]
 delta_time = 5
 x = -1.5
 points = 200
+
+
 def get_transformations(q):
     # Initialize the DH parameters derived for the UR10 arm
-    a   = [pi/2, 0, 0, pi/2, -pi/2, 0]
-    d   = [0.1273,0,0,0.163941,0.1157,0.0922]
-    ai  = [0,-0.612,-0.5723,0,0,0]
-    arr = [0,0,0,0,0,0]
-    # Add a base frame to derive the transformation of each joint w.r.t the base
+    a = [pi / 2, 0, 0, pi / 2, -pi / 2, 0]
+    d = [0.1273, 0, 0, 0.163941, 0.1157, 0.0922]
+    ai = [0, -0.612, -0.5723, 0, 0, 0]
+    arr = [0, 0, 0, 0, 0, 0]
+    # Add a base frame to derive the transformation of each joint w.r.t the
+    # base
     T00 = Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
     arr_0 = [T00]
-    #ti,i+1, T01,T12,T23... using the matrix template for the DH Parameters
-    for i in range (0,len(q)):
-        arr[i] = Matrix([[cos(q[i]), -sin(q[i])*cos(a[i]),  sin(q[i])*sin(a[i]),  ai[i]*cos(q[i])],
-                 [sin(q[i]),  cos(q[i])*cos(a[i]), -cos(q[i])*sin(a[i]),  ai[i]*sin(q[i])],
-                 [0,          sin(a[i]),            cos(a[i]),            d[i]], 
-                 [0,          0,                    0,                    1]])
+    # ti,i+1, T01,T12,T23... using the matrix template for the DH Parameters
+    for i in range(0, len(q)):
+        arr[i] = Matrix([[cos(q[i]), -
+                          sin(q[i]) *
+                          cos(a[i]), sin(q[i]) *
+                          sin(a[i]), ai[i] *
+                          cos(q[i])], [sin(q[i]), cos(q[i]) *
+                         cos(a[i]), -
+                         cos(q[i]) *
+                         sin(a[i]), ai[i] *
+                         sin(q[i])], [0, sin(a[i]), cos(a[i]), d[i]], [0, 0, 0, 1]])
         arr_0.append(arr[i])
     #t0i = t01*t12*t0i
     mat = [arr_0[0]]
-    for i in range (0,len(arr_0)-1):            
-        mat.append(mat[i]*arr_0[i+1])
+    for i in range(0, len(arr_0) - 1):
+        mat.append(mat[i] * arr_0[i + 1])
     return mat
 
-def cross_prod(z,o):
-	mul = zeros(3,1)
-	mul[0] =   z[1]*o[2]-z[2]*o[1]
-	mul[1] = -(z[0]*o[2]-z[2]*o[0])
-	mul[2] =   z[0]*o[1]-z[1]*o[0]
-	return mul
+
+def cross_prod(z, o):
+    mul = zeros(3, 1)
+    mul[0] = z[1] * o[2] - z[2] * o[1]
+    mul[1] = -(z[0] * o[2] - z[2] * o[0])
+    mul[2] = z[0] * o[1] - z[1] * o[0]
+    return mul
+
 
 def jacobian(trans):
     jacob = []
     n_joint = len(trans)
-    O_n = trans[n_joint-1][0:3,3]
+    O_n = trans[n_joint - 1][0:3, 3]
     # Calculate jacobian of all joints except joint 3 since it's locked
-    for i in range(0, n_joint-1):
+    for i in range(0, n_joint - 1):
         # Omit third joint jacobian calculation
-        #if (i == 2):
+        # if (i == 2):
         #   continue
         # Calculate jacobian using Method 1
-        O   = O_n - trans[i][0:3,3]
-        z   = trans[i][0:3,2]
-        lin_vel = cross_prod(z,O)
-        j_each  = Matrix([[lin_vel[0]], [lin_vel[1]], [lin_vel[2]], [z[0]], [z[1]], [z[2]]])
+        O = O_n - trans[i][0:3, 3]
+        z = trans[i][0:3, 2]
+        lin_vel = cross_prod(z, O)
+        j_each = Matrix(
+            [[lin_vel[0]],
+             [lin_vel[1]],
+             [lin_vel[2]],
+             [z[0]],
+             [z[1]],
+             [z[2]]])
         jacob.append(j_each)
-    j = Matrix([[jacob[0], jacob[1], jacob[2], jacob[3], jacob[4],jacob[5]]])   
+    j = Matrix([[jacob[0], jacob[1], jacob[2], jacob[3], jacob[4], jacob[5]]])
     return j
 
-# right arm joint angles
+
 r_intial_pos = [0, 0, 0, 0, 0, 0, 0.01, 0.01]
 r_pos_1 = [-1.3, 0, 0, 0, 0, 0, 0.01, 0.01]
 r_pos_2 = [-1.35, 0, 0.4, 0, 0, 0, 0.5, 0.5]
@@ -91,6 +108,7 @@ l_pos_11 = [1.35, 0.0, 0.5, 0, -0.2, 0, 0.0, 0.0]
 l_pos_12 = [1.35, 0.0, 0.5, 0.3, -0.2, 0, 0.0, 0.0]
 l_pos_13 = [1.35, 0.0, 0.7, 0.3, -0.2, 0, 0.7, 0.7]
 
+
 def r_pub_angle(pose2, pose1):
     t1 = np.linspace(pose2[0], pose1[0], 10)
     t2 = np.linspace(pose2[1], pose1[1], 10)
@@ -100,7 +118,7 @@ def r_pub_angle(pose2, pose1):
     t6 = np.linspace(pose2[5], pose1[5], 10)
     t7 = np.linspace(pose2[6], pose1[6], 10)
     t8 = np.linspace(pose2[7], pose1[7], 10)
-    
+
     for i in range(9):
         pub_r_shoulder_pan_joint_controller.publish(t1[i])
         pub_r_shoulder_lift_joint_controller.publish(t2[i])
@@ -181,27 +199,48 @@ def move():
     right_jacobian = jacobian(right_arm_transforms)
     left_jacobian = jacobian(left_arm_transforms)
 
-    right_pos_now = right_arm_transforms[len(right_arm_transforms)-1][0:3,3]
+    right_pos_now = right_arm_transforms[len(right_arm_transforms) - 1][0:3, 3]
     right_pos_des = Matrix([[2], [0], [2]])
     right_delta_p = right_pos_des - right_pos_now
     right_pos_dot = right_delta_p / delta_time
     # q_dot = jinv * W
-    r_thetas   = right_jacobian.inv()*Matrix([[right_pos_dot[0]], [0], [0], [0], [0], [0]])
-    right_thetas = Matrix([r_thetas[0], r_thetas[1], r_thetas[2], r_thetas[3], r_thetas[4], r_thetas[5]])
+    r_thetas = right_jacobian.inv(
+    ) * Matrix([[right_pos_dot[0]], [0], [0], [0], [0], [0]])
+    right_thetas = Matrix(
+        [r_thetas[0],
+         r_thetas[1],
+         r_thetas[2],
+         r_thetas[3],
+         r_thetas[4],
+         r_thetas[5]])
 
-    left_pos_now = left_arm_transforms[len(left_arm_transforms)-1][0:3,3]
+    left_pos_now = left_arm_transforms[len(left_arm_transforms) - 1][0:3, 3]
     left_pos_des = Matrix([[2], [0], [2]])
     left_delta_p = left_pos_des - left_pos_now
     left_pos_dot = left_delta_p / delta_time
     # q_dot = jinv * W
-    r_thetas   = right_jacobian.inv()*Matrix([[right_pos_dot[0]], [0], [0], [0], [0], [0]])
-    right_thetas = Matrix([r_thetas[0], r_thetas[1], r_thetas[2], r_thetas[3], r_thetas[4], r_thetas[5]])
+    r_thetas = right_jacobian.inv(
+    ) * Matrix([[right_pos_dot[0]], [0], [0], [0], [0], [0]])
+    right_thetas = Matrix(
+        [r_thetas[0],
+         r_thetas[1],
+         r_thetas[2],
+         r_thetas[3],
+         r_thetas[4],
+         r_thetas[5]])
 
-    l_thetas   = left_jacobian.inv()*Matrix([[left_pos_dot[0]], [0], [0], [0], [0], [0]])
-    left_thetas = Matrix([l_thetas[0], l_thetas[1], l_thetas[2], l_thetas[3], l_thetas[4], l_thetas[5]])
-    
+    l_thetas = left_jacobian.inv(
+    ) * Matrix([[left_pos_dot[0]], [0], [0], [0], [0], [0]])
+    left_thetas = Matrix(
+        [l_thetas[0],
+         l_thetas[1],
+         l_thetas[2],
+         l_thetas[3],
+         l_thetas[4],
+         l_thetas[5]])
+
     pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
-    
+
     md = ModelState()
 
     time.sleep(1)

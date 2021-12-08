@@ -15,6 +15,6 @@
   <!-- State Publisher -->
   <node name="robot_state_publisher" output="screen" pkg="robot_state_publisher" respawn="false" type="robot_state_publisher"></node>
 
-  <include file="$(find food_maker)/launch/robot_arm_controller.launch"/>
+  <include file="$(find food_maker)/launch/arm_controller.launch"/>
   
 </launch>
