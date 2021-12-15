@@ -2,9 +2,9 @@
 <robot name="food_robot" xmlns:xacro="http://wiki.ros.org/xacro">
 
   <xacro:include filename="$(find food_maker)/urdf/right_arm/right_arm.urdf.xacro"/>
-    <xacro:include filename="$(find food_maker)/urdf/left_arm/left_arm.urdf.xacro"/>
-
-     <xacro:include filename="$(find food_maker)/urdf/robot.gazebo"/>
+  <xacro:include filename="$(find food_maker)/urdf/left_arm/left_arm.urdf.xacro"/>
+  <xacro:include filename="$(find food_maker)/urdf/robot.gazebo"/>
+  
  <link name="robot_footprint"></link>
     <joint name="robot_footprint_joint" type="fixed">
         <parent link="robot_footprint" />
@@ -137,6 +137,80 @@
     <axis
       xyz="0 0 -1" />
   </joint>
+
+   <!-- Lidar -->
+    <link name="base_laser">
+        <inertial>
+            <origin xyz="-0.00029774 0.0066667 0.00013047" rpy="0 0 0" />
+            <mass value="0.15717" />
+            <inertia ixx="6.7885E-05" ixy="-1.3987E-07" ixz="-8.1554E-07" iyy="0.00013173" iyz="-9.0932E-08" izz="7.1972E-05" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://food_maker/meshes/ydlidar.dae" />
+            </geometry>
+            <material name="">
+                <color rgba="0.64706 0.61961 0.58824 1" />
+            </material>
+        </visual>
+        <!-- <collision> Is removed to improve gazebo's real time factor
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://food_maker/meshes/ydlidar.dae" />
+            </geometry>
+        </collision> -->
+    </link>
+    <link name="laser_frame">
+        <inertial>
+            <origin xyz="-0.00036659 0.00064155 -0.00027052" rpy="0 0 0" />
+            <mass value="0.25482" />
+            <inertia ixx="8.9194E-05" ixy="1.8116E-07" ixz="3.6435E-08" iyy="0.00018279" iyz="2.423E-07" izz="0.00011103" />
+        </inertial>
+    </link>
+    <joint name="laser_joint" type="fixed">
+        <origin xyz="0 0 0.03172" rpy="0 0 0" />
+        <parent link="base_laser" />
+        <child link="laser_frame" />
+        <axis xyz="0 0 0" />
+    </joint>
+    <joint name="laser_optical_joint" type="fixed">
+        <origin xyz="0 0 0.07" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="base_laser" />
+        <axis xyz="0 0 0" />
+    </joint>
+
+  <joint name="camera_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0 0 1.5" rpy="0 0.3 3.14"/>
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint>
+
+  <!-- Camera -->
+  <link name="camera_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
 
     <transmission name="hip_trans">
       <type>transmission_interface/SimpleTransmission</type>

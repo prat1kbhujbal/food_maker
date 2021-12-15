@@ -13,7 +13,7 @@ The project demonstrates a robot preparing a pizza. Robot will streamline the te
 ```bash
 mkdir -p <your_workspace_name>/src
 cd <your_workspace_name>/src
-git clone https://github.com/Prat33k-dev/walker_turtlebot.git
+git clone https://github.com/Prat33k-dev/food_maker.git
 cd <your_workspace_name>
 catkin_make
 ```
@@ -33,5 +33,6 @@ catkin_make
     ```
 ## [Demonstration Video](https://drive.google.com/file/d/1ToFM6Ej-sCzrsyW8UmaYlT9Ouy-rchKu/view?usp=sharing)
 
-## Cad model
+## [Report](/662_Project2_Report.pdf)
+## CAD Models
 Following is the link to cad models of the robot - [link](https://drive.google.com/drive/folders/1eIMCfKIN6-10OEwQIi32q56CKl-o1Jfy?usp=sharing)
